@@ -18,7 +18,7 @@ This is the backend service for the Hahn job portal project built with Spring Bo
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/hahn-backend.git
+git clone https://github.com/zakaria0001/HAHN-CRUD.git
 cd hahn-backend
 ```
 
@@ -31,7 +31,7 @@ Example commands (PostgreSQL CLI):
 
 ```sql
 CREATE DATABASE hahn_db;
-CREATE USER hahn_user WITH ENCRYPTED PASSWORD 'your_password';
+CREATE USER hahn_user WITH ENCRYPTED PASSWORD 'admin';
 GRANT ALL PRIVILEGES ON DATABASE hahn_db TO hahn_user;
 ```
 
@@ -42,7 +42,7 @@ Edit `src/main/resources/application.properties` to reflect your PostgreSQL sett
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/hahn_db
 spring.datasource.username=hahn_user
-spring.datasource.password=your_password
+spring.datasource.password=admin
 
 spring.jpa.hibernate.ddl-auto=none
 spring.sql.init.mode=always
@@ -82,19 +82,6 @@ You can test endpoints like:
 
 ---
 
-## Optional: Flyway database migrations
-
-If you prefer Flyway over raw SQL files:
-
-- Place migration files in `src/main/resources/db/migration/`
-- Enable Flyway in `application.properties`:
-
-```properties
-spring.flyway.enabled=true
-```
-
----
-
 ## Troubleshooting
 
 - If you get errors about `NULL` values for primary keys, make sure your `schema.sql` uses `BIGSERIAL` for auto-generated IDs and your inserts do **not** specify the `id` column.
@@ -105,7 +92,7 @@ spring.flyway.enabled=true
 
 ## Contact
 
-For any questions or help, contact [Your Name](mailto:your.email@example.com).
+For any questions or help, contact [NABIL Zakaria](mailto:zakarianabil68@gmail.com).
 
 ---
 
