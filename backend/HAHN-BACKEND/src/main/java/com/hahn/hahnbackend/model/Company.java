@@ -1,5 +1,6 @@
 package com.hahn.hahnbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,7 +18,9 @@ public class Company {
     private String industry;
 
     @OneToMany(mappedBy = "company")
+    @JsonIgnoreProperties("company") // Ignore company inside jobs
     private List<Job> jobs;
+
 
     public Long getId() {
         return id;

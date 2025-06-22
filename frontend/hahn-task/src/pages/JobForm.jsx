@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { createJob, getJobById, updateJob } from '../services/api';
 
 export default function JobForm() {
-  const { id } = useParams();       // if editing
+  const { id } = useParams(); // if editing
   const navigate = useNavigate();
   const isEdit = Boolean(id);
 
@@ -12,7 +12,7 @@ export default function JobForm() {
     category: '',
     salary: '',
     remote: false,
-    companyId: '',    // or company name, depending on your backend
+    companyId: '',
     description: '',
   });
 
@@ -42,90 +42,102 @@ export default function JobForm() {
     }));
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const payload = {
-    ...form,
-    salary: Number(form.salary),
-    company: { id: Number(form.companyId) },
+    const payload = {
+      ...form,
+      salary: Number(form.salary),
+      company: { id: Number(form.companyId) },
+    };
+    delete payload.companyId;
+
+    const apiCall = isEdit ? updateJob(id, payload) : createJob(payload);
+
+    apiCall
+      .then(() => navigate('/'))
+      .catch(err => console.error('Failed to save job', err));
   };
-  delete payload.companyId;
-
-  console.log('Payload to send:', payload);  // <-- Add this line
-
-  const apiCall = isEdit ? updateJob(id, payload) : createJob(payload);
-
-  apiCall
-    .then(() => navigate('/'))
-    .catch(err => console.error('Failed to save job', err));
-};
-
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{isEdit ? 'Edit Job' : 'Create New Job'}</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8 space-y-6"
+    >
+      <h2 className="text-2xl font-bold">{isEdit ? 'Edit Job' : 'Create New Job'}</h2>
 
-      <label>
-        Title:
+      <label className="block">
+        <span className="text-gray-700 font-semibold">Title:</span>
         <input
           name="title"
           value={form.title}
           onChange={handleChange}
           required
+          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </label>
 
-      <label>
-        Category:
+      <label className="block">
+        <span className="text-gray-700 font-semibold">Category:</span>
         <input
           name="category"
           value={form.category}
           onChange={handleChange}
           required
+          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </label>
 
-      <label>
-        Salary:
+      <label className="block">
+        <span className="text-gray-700 font-semibold">Salary:</span>
         <input
           name="salary"
+          type="number"
           value={form.salary}
           onChange={handleChange}
-          type="number"
+          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </label>
 
-      <label>
-        Remote:
+      <label className="flex items-center gap-2">
         <input
           name="remote"
           type="checkbox"
           checked={form.remote}
           onChange={handleChange}
+          className="h-5 w-5 text-blue-600"
         />
+        <span className="text-gray-700 font-semibold">Remote</span>
       </label>
 
-      <label>
-        Company ID:
+      <label className="block">
+        <span className="text-gray-700 font-semibold">Company ID:</span>
         <input
           name="companyId"
           value={form.companyId}
           onChange={handleChange}
           required
+          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </label>
 
-      <label>
-        Description:
+      <label className="block">
+        <span className="text-gray-700 font-semibold">Description:</span>
         <textarea
           name="description"
           value={form.description}
           onChange={handleChange}
+          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows={4}
         />
       </label>
 
-      <button type="submit">{isEdit ? 'Update' : 'Create'}</button>
+      <button
+        type="submit"
+        className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+      >
+        {isEdit ? 'Update Job' : 'Create Job'}
+      </button>
     </form>
   );
 }

@@ -1,5 +1,6 @@
 package com.hahn.hahnbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -21,11 +22,15 @@ public class Job {
 
     private boolean remote;
 
-    private String keywords; // ✅ New field
+    private String keywords;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", nullable = false)
+    @JsonIgnoreProperties("jobs") // Ignore jobs inside company to prevent recursion
     private Company company;
+
+
+
 
     // Getters and setters
 

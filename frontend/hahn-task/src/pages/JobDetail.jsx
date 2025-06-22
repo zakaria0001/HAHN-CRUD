@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getJobById } from '../services/api';
 
 export default function JobDetail() {
@@ -19,20 +19,33 @@ export default function JobDetail() {
       });
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
-  if (!job) return <p>Job not found.</p>;
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!job) return <p className="text-center mt-10">Job not found.</p>;
 
   return (
-    <div>
-      <h2>{job.title}</h2>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
+      <h2 className="text-3xl font-bold mb-4 text-blue-800">{job.title}</h2>
       <p><strong>Company:</strong> {job.company?.name}</p>
       <p><strong>Category:</strong> {job.category}</p>
-      <p><strong>Salary:</strong> {job.salary}</p>
+      <p><strong>Salary:</strong> ${job.salary.toLocaleString()}</p>
       <p><strong>Remote:</strong> {job.remote ? 'Yes' : 'No'}</p>
-      <p><strong>Description:</strong></p>
-      <p>{job.description || 'No description provided.'}</p>
+      <p className="mt-4"><strong>Description:</strong></p>
+      <p className="whitespace-pre-wrap">{job.description || 'No description provided.'}</p>
 
-      {/* Add Apply button or link here if you want */}
+      <div className="mt-6 flex gap-4">
+        <Link
+          to={`/jobs/${job.id}/edit`}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        >
+          Edit Job
+        </Link>
+        <Link
+          to="/"
+          className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
+        >
+          Back to Job List
+        </Link>
+      </div>
     </div>
   );
 }

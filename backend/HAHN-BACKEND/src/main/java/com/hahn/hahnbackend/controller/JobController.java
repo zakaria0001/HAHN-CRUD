@@ -62,5 +62,10 @@ public class JobController {
 
         return jobRepo.findAll();
     }
+    @GetMapping("/{id}")
+    public Job getJobById(@PathVariable Long id) {
+        return jobRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+    }
 
 }

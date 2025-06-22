@@ -9,6 +9,7 @@ const api = axios.create({
 export const getJobs = (filters = {}) => {
   const params = {};
   if (filters.category) params.category = filters.category;
+  if (filters.title) params.title = filters.title;
   if (typeof filters.remote === 'boolean') params.remote = filters.remote;
   return api.get('/jobs/search', { params });
 };
