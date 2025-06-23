@@ -44,8 +44,11 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/hahn_db
 spring.datasource.username=hahn_user
 spring.datasource.password=admin
 
-spring.jpa.hibernate.ddl-auto=none
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.sql.init.mode=always
+spring.sql.init.data-locations=classpath:data.sql
+spring.jpa.defer-datasource-initialization=true
 ```
 
 ### 4. Database schema and data initialization
