@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createJob, getJobById, updateJob } from '../services/api';
+import { createJob, getCompanies, getJobById, updateJob } from '../services/api';
 
 export default function JobForm() {
   const { id } = useParams(); // if editing
   const navigate = useNavigate();
   const isEdit = Boolean(id);
+  const [companies, setCompanies] = useState([]);  // <-- Add state for companies
 
   const [form, setForm] = useState({
     title: '',
@@ -15,7 +16,11 @@ export default function JobForm() {
     companyId: '',
     description: '',
   });
-
+  useEffect(() => {
+    getCompanies()
+      .then(res => setCompanies(res.data))
+      .catch(err => console.error('Failed to fetch companies', err));
+  }, []);
   useEffect(() => {
     if (isEdit) {
       getJobById(id)
@@ -60,6 +65,7 @@ export default function JobForm() {
   };
 
   return (
+
     <form
       onSubmit={handleSubmit}
       className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8 space-y-6"
@@ -111,14 +117,21 @@ export default function JobForm() {
       </label>
 
       <label className="block">
-        <span className="text-gray-700 font-semibold">Company ID:</span>
-        <input
+        <span className="text-gray-700 font-semibold">Company:</span>
+        <select
           name="companyId"
           value={form.companyId}
           onChange={handleChange}
           required
           className="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        >
+          <option value="" disabled>Select a company</option>
+          {companies.map(company => (
+            <option key={company.id} value={company.id}>
+              {company.name}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label className="block">

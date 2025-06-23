@@ -26,3 +26,5 @@ CREATE TABLE IF NOT EXISTS applicant (
     job_id BIGINT,
     CONSTRAINT fk_job FOREIGN KEY (job_id) REFERENCES job(id)
     );
+ALTER TABLE job
+    ALTER COLUMN created_at SET DEFAULT NOW();

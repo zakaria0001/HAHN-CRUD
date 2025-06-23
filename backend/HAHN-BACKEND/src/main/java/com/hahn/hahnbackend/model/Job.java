@@ -1,8 +1,12 @@
 package com.hahn.hahnbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Job {
@@ -14,6 +18,7 @@ public class Job {
     @NotBlank(message = "Title must not be blank")
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private String category;
@@ -97,4 +102,27 @@ public class Job {
     public void setCompany(Company company) {
         this.company = company;
     }
+
+
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    // Getter
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    // Setter (optional, you can omit if never manually set)
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

@@ -1,8 +1,7 @@
-// src/services/api.js
+/* eslint-disable import/no-webpack-loader-syntax */
 import axios from 'axios';
-
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api', // Backend API base URL
+  baseURL: 'http://localhost:8180/api', // Backend API base URL
   timeout: 5000,
 });
 
@@ -21,5 +20,7 @@ export const createJob = (jobData) => api.post('/jobs', jobData);
 export const updateJob = (id, jobData) => api.put(`/jobs/${id}`, jobData);
 
 export const getApplicantsByJob = (jobId) => api.get(`/applicants/job/${jobId}`);
+
+export const getCompanies = () => api.get('/companies');
 
 export default api;

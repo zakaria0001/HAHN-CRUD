@@ -42,6 +42,27 @@ public class JobController {
 
 
 
+    @PutMapping("/{id}")
+    public Job updateJob(@PathVariable Long id, @RequestBody Job updatedJob) {
+        return jobRepo.findById(id)
+                .map(existingJob -> {
+                    existingJob.setTitle(updatedJob.getTitle());
+                    existingJob.setCategory(updatedJob.getCategory());
+                    existingJob.setSalary(updatedJob.getSalary());
+                    existingJob.setRemote(updatedJob.isRemote());
+                    existingJob.setDescription(updatedJob.getDescription());
+
+                    // Important: preserve relationship
+                    if (updatedJob.getCompany() != null && updatedJob.getCompany().getId() != null) {
+                        Company company = companyRepo.findById(updatedJob.getCompany().getId())
+                                .orElseThrow(() -> new RuntimeException("Company not found"));
+                        existingJob.setCompany(company);
+                    }
+
+                    return jobRepo.save(existingJob);
+                })
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+    }
 
     @GetMapping("/search")
     public List<Job> search(@RequestParam(required = false) String category,

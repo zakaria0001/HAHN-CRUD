@@ -11,4 +11,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findByCategoryContainingIgnoreCase(String category);
     List<Job> findByRemote(boolean remote);
     List<Job> findByTitleContainingIgnoreCase(String title);
+    List<Job> findAll(); // works fine
+
 }
