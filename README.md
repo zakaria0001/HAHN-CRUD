@@ -25,6 +25,7 @@ cd hahn-backend
 ### 2. Configure PostgreSQL database
 
 - Create a new database in PostgreSQL for this project, e.g., `hahn_db`
+- Create a new database in PostgreSQL for this project, e.g., `hahn_db`
 - Create a user with appropriate privileges or use your existing user
 
 Example commands (PostgreSQL CLI):
@@ -75,7 +76,7 @@ java -jar target/hahnbackend-0.0.1-SNAPSHOT.jar
 
 ### 6. Test the application
 
-The API will be available at `http://localhost:8080/`.
+The API will be available at `http://localhost:8180/`.
 
 You can test endpoints like:
 
