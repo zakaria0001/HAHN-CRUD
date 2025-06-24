@@ -1,34 +1,52 @@
-# Hahn Backend
+# 🧑‍💼 Hahn Job Portal – Full Stack CRUD Application
 
-This is the backend service for the Hahn job portal project built with Spring Boot, JPA/Hibernate, and PostgreSQL.
-
----
-
-## Prerequisites
-
-- Java 17+ (or compatible JDK)
-- PostgreSQL 12+ (running locally or remotely)
-- Maven or Gradle (depending on your build setup)
-- (Optional) IDE like IntelliJ IDEA or VS Code
+A modern CRUD job portal built with **Spring Boot**, **React.js**, **PostgreSQL**, and **Docker**.
 
 ---
 
-## Setup Instructions
+## 📥 Download
 
-### 1. Clone the repository
+[Download ZIP](https://github.com/zakaria0001/HAHN-CRUD/archive/refs/heads/main.zip)
+
+Or clone it:
 
 ```bash
 git clone https://github.com/zakaria0001/HAHN-CRUD.git
-cd hahn-backend
 ```
 
-### 2. Configure PostgreSQL database
+---
 
-- Create a new database in PostgreSQL for this project, e.g., `hahn_db`
-- Create a new database in PostgreSQL for this project, e.g., `hahn_db`
-- Create a user with appropriate privileges or use your existing user
+## 📁 Project Structure
 
-Example commands (PostgreSQL CLI):
+```
+HAHN-CRUD/
+├── backend/
+│   └── hahn-backend/       # Spring Boot API
+├── frontend/
+│   └── hahn-task/          # React frontend
+├── docker-compose.yml
+├── README.md
+```
+
+---
+
+## 🧠 Backend – Spring Boot
+
+### 🛠️ Prerequisites
+
+- Java 17+
+- PostgreSQL 12+
+- Maven
+
+### 🚀 Run Backend Locally
+
+1. Navigate to backend:
+
+```bash
+cd backend/hahn-backend
+```
+
+2. Setup PostgreSQL:
 
 ```sql
 CREATE DATABASE hahn_db;
@@ -36,9 +54,7 @@ CREATE USER hahn_user WITH ENCRYPTED PASSWORD 'admin';
 GRANT ALL PRIVILEGES ON DATABASE hahn_db TO hahn_user;
 ```
 
-### 3. Update application properties
-
-Edit `src/main/resources/application.properties` to reflect your PostgreSQL settings:
+3. Configure `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/hahn_db
@@ -50,54 +66,82 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.sql.init.mode=always
 spring.sql.init.data-locations=classpath:data.sql
 spring.jpa.defer-datasource-initialization=true
+server.port=8180
 ```
 
-### 4. Database schema and data initialization
-
-- The database schema will be created automatically by `schema.sql` on application startup.
-- Initial sample data will be loaded from `data.sql`.
-
-Make sure both files exist in `src/main/resources/`.
-
-### 5. Build and run the application
-
-Using Maven:
-
-```bash
-./mvnw clean spring-boot:run
-```
-
-Or build a jar and run:
+4. Build and run:
 
 ```bash
 ./mvnw clean package
 java -jar target/hahnbackend-0.0.1-SNAPSHOT.jar
 ```
 
-### 6. Test the application
-
-The API will be available at `http://localhost:8180/`.
-
-You can test endpoints like:
-
-- `GET /jobs` — list jobs
-- `GET /companies` — list companies
-- `GET /applicants` — list applicants
+API: `http://localhost:8180/api/jobs`
 
 ---
 
-## Troubleshooting
+## 💻 Frontend – React
 
-- If you get errors about `NULL` values for primary keys, make sure your `schema.sql` uses `BIGSERIAL` for auto-generated IDs and your inserts do **not** specify the `id` column.
-- Verify PostgreSQL is running and accessible with the credentials configured.
-- Use logs for detailed errors (`application.properties` logging level can be set).
+### 🛠️ Prerequisites
+
+- Node.js 18+
+- npm
+
+### 🚀 Run Frontend Locally
+
+```bash
+cd frontend/hahn-task
+npm install
+npm start
+```
+
+Runs on: `http://localhost:3000`
 
 ---
 
-## Contact
+## 🐳 Dockerized Setup (Recommended)
 
-For any questions or help, contact [NABIL Zakaria](mailto:zakarianabil68@gmail.com).
+### 🧰 Requirements
+
+- Docker
+- Docker Compose
+
+### 🚀 Run Entire Stack
+
+```bash
+docker-compose up --build
+```
+
+### Ports:
+
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend: [http://localhost:8180](http://localhost:8180)
+- PostgreSQL: `localhost:5432`
 
 ---
 
-Happy coding! 🚀
+## 🗃️ Database Schema
+
+- **Job**: title, salary, remote, category, description, keywords
+- **Company**: name, location
+- **Applicant**: name, email, linked to job
+
+All tables use `BIGSERIAL` for `id` auto-generation.
+
+---
+
+## ⚠️ Common Issues
+
+- **Missing PostgreSQL connection**: ensure Docker PostgreSQL service is healthy.
+- **Spring Boot port in use**: free port 8180 or change `server.port`.
+- **Frontend can’t reach backend**: check CORS settings or use relative paths in API calls.
+
+---
+
+## 📩 Contact
+
+Built by [Zakaria Nabil](mailto:zakarianabil68@gmail.com)
+
+---
+
+🎉 Enjoy coding!
