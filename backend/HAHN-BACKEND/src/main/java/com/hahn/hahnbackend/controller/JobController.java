@@ -42,6 +42,14 @@ public class JobController {
 
 
 
+    @DeleteMapping("/{id}")
+    public void deleteJob(@PathVariable Long id) {
+        if (!jobRepo.existsById(id)) {
+            throw new RuntimeException("Job not found");
+        }
+        jobRepo.deleteById(id);
+    }
+
     @PutMapping("/{id}")
     public Job updateJob(@PathVariable Long id, @RequestBody Job updatedJob) {
         return jobRepo.findById(id)

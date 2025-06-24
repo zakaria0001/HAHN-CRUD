@@ -1,0 +1,26 @@
+# Stage 1: Build the application with Maven and Temurin JDK 21
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+WORKDIR /app
+
+# Copy pom.xml and download dependencies (offline mode)
+COPY ./HAHN-BACKEND/pom.xml .
+RUN mvn dependency:go-offline
+
+# Copy source code
+COPY ./HAHN-BACKEND/src ./src
+
+# Package the app, skipping tests
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application with JDK 21
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+
+# Copy the built jar from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+EXPOSE 8180
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

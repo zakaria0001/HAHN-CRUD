@@ -28,3 +28,13 @@ CREATE TABLE IF NOT EXISTS applicant (
     );
 ALTER TABLE job
     ALTER COLUMN created_at SET DEFAULT NOW();
+
+
+ALTER TABLE applicant
+DROP CONSTRAINT fkt74cl2p3amxj0ukd6ngwdryvl;
+
+ALTER TABLE applicant
+    ADD CONSTRAINT fkt74cl2p3amxj0ukd6ngwdryvl
+        FOREIGN KEY (job_id)
+            REFERENCES job(id)
+            ON DELETE CASCADE;
