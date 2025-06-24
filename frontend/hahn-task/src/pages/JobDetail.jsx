@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getJobById, updateJob } from '../services/api';
+import { getJobById, updateJob, deleteJob } from '../services/api'; // 👈 add deleteJob here
 
 export default function JobDetail() {
   const { id } = useParams();
@@ -37,6 +37,16 @@ export default function JobDetail() {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
+const handleDelete = async () => {
+  if (window.confirm('Are you sure you want to delete this job?')) {
+    try {
+      await deleteJob(job.id);
+      window.location.href = '/'; // or use useNavigate() for better SPA behavior
+    } catch (err) {
+      console.error('Delete failed:', err);
+    }
+  }
+};
 
   const handleUpdate = async () => {
     try {
@@ -148,6 +158,12 @@ export default function JobDetail() {
             >
               Edit Job
             </button>
+              <button
+    onClick={handleDelete}
+    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+  >
+    Delete Job
+  </button>
             <Link
               to="/"
               className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition"
